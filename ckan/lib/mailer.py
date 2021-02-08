@@ -120,8 +120,10 @@ def mail_recipient(recipient_name, recipient_email, subject,
     '''Sends an email'''
     site_title = config.get('ckan.site_title')
     site_url = config.get('ckan.site_url')
+    smtp_from_name = os.environ.get('CKAN_SMTP_MAIL_FROM_NAME', None)
+    sender_name = smtp_from_name if smtp_from_name is not None else site_title
     return _mail_recipient(recipient_name, recipient_email,
-                           site_title, site_url, subject, body,
+                           sender_name, site_url, subject, body,
                            body_html=body_html, headers=headers)
 
 
