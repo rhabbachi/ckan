@@ -544,6 +544,11 @@ class CreateView(MethodView):
         context = self._prepare()
         is_an_update = False
         ckan_phase = request.form.get(u'_ckan_phase')
+
+        # Custom: skip resource add form when 'no-phases' is set.
+        if request.form[u'save'] in [u'no-phases']:
+            ckan_phase = None
+
         try:
             data_dict = clean_dict(
                 dict_fns.unflatten(tuplize_dict(parse_params(request.form)))
